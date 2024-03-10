@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.BookinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Bookinfo">
+            <id property="bookid" column="BookID" jdbcType="INTEGER"/>
+            <result property="bookname" column="BookName" jdbcType="VARCHAR"/>
+            <result property="publishtime" column="PublishTime" jdbcType="DATE"/>
+            <result property="author" column="Author" jdbcType="VARCHAR"/>
+            <result property="publisher" column="Publisher" jdbcType="VARCHAR"/>
+            <result property="category" column="Category" jdbcType="VARCHAR"/>
+            <result property="pages" column="Pages" jdbcType="INTEGER"/>
+            <result property="price" column="Price" jdbcType="DECIMAL"/>
+            <result property="picturepath" column="PicturePath" jdbcType="VARCHAR"/>
+            <result property="bookstatus" column="BookStatus" jdbcType="INTEGER"/>
+            <result property="deptid" column="DeptID" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        BookID,BookName,PublishTime,
+        Author,Publisher,Category,
+        Pages,Price,PicturePath,BookStatus,DeptID
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bookinfo
+        where  BookID = #{bookid,jdbcType=INTEGER} 
+    </select>
+
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bookinfo
+        where  BookName = #{bookname,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAllInfo"  resultMap="BaseResultMap" parameterType="com.bhh.booksystem.model.domain.request.BookSearchRequest">
+        select
+        *
+        from bookinfo
+        <where>
+            <if test="bookname != null and bookname != ''">
+                AND BookName LIKE CONCAT('%', #{bookname}, '%')
+            </if>
+            <if test="bookid != 0">
+                AND BookID = #{bookid}
+            </if>
+            <if test="author != null and author != ''">
+                AND Author LIKE CONCAT('%', #{author}, '%')
+            </if>
+            <if test="publisher != null and publisher != ''">
+                AND Publisher LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from bookinfo
+        where  BookID = #{bookid,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="BookID" keyProperty="bookid" parameterType="com.bhh.booksystem.model.domain.Bookinfo" useGeneratedKeys="true">
+        insert into bookinfo
+        ( BookID,BookName,PublishTime
+        ,Author,Publisher,Category
+        ,Pages,Price,PicturePath
+        )
+        values (#{bookid,jdbcType=INTEGER},#{bookname,jdbcType=VARCHAR},#{publishtime,jdbcType=DATE}
+        ,#{author,jdbcType=VARCHAR},#{publisher,jdbcType=VARCHAR},#{category,jdbcType=VARCHAR}
+        ,#{pages,jdbcType=INTEGER},#{price,jdbcType=DECIMAL},#{picturepath,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="BookID" keyProperty="bookid" parameterType="com.bhh.booksystem.model.domain.Bookinfo" useGeneratedKeys="true">
+        insert into bookinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="bookid != null">BookID,</if>
+                <if test="bookname != null">BookName,</if>
+                <if test="publishtime != null">PublishTime,</if>
+                <if test="author != null">Author,</if>
+                <if test="publisher != null">Publisher,</if>
+                <if test="category != null">Category,</if>
+                <if test="pages != null">Pages,</if>
+                <if test="price != null">Price,</if>
+                <if test="picturepath != null">PicturePath,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="bookid != null">#{bookid,jdbcType=INTEGER},</if>
+                <if test="bookname != null">#{bookname,jdbcType=VARCHAR},</if>
+                <if test="publishtime != null">#{publishtime,jdbcType=DATE},</if>
+                <if test="author != null">#{author,jdbcType=VARCHAR},</if>
+                <if test="publisher != null">#{publisher,jdbcType=VARCHAR},</if>
+                <if test="category != null">#{category,jdbcType=VARCHAR},</if>
+                <if test="pages != null">#{pages,jdbcType=INTEGER},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+                <if test="picturepath != null">#{picturepath,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bhh.booksystem.model.domain.Bookinfo">
+        update bookinfo
+        <set>
+                <if test="bookname != null">
+                    BookName = #{bookname,jdbcType=VARCHAR},
+                </if>
+                <if test="publishtime != null">
+                    PublishTime = #{publishtime,jdbcType=DATE},
+                </if>
+                <if test="author != null">
+                    Author = #{author,jdbcType=VARCHAR},
+                </if>
+                <if test="publisher != null">
+                    Publisher = #{publisher,jdbcType=VARCHAR},
+                </if>
+                <if test="category != null">
+                    Category = #{category,jdbcType=VARCHAR},
+                </if>
+                <if test="pages != null">
+                    Pages = #{pages,jdbcType=INTEGER},
+                </if>
+                <if test="price != null">
+                    Price = #{price,jdbcType=DECIMAL},
+                </if>
+                <if test="picturepath != null">
+                    PicturePath = #{picturepath,jdbcType=VARCHAR},
+                </if>
+                <if test="bookstatus != null">
+                    BookStatus = #{bookstatus,jdbcType=INTEGER},
+                </if>
+                <if test="deptid != null and deptid != 0">
+                    DeptID = #{deptid,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   BookID = #{bookid,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bhh.booksystem.model.domain.Bookinfo">
+        update bookinfo
+        set 
+            BookName =  #{bookname,jdbcType=VARCHAR},
+            PublishTime =  #{publishtime,jdbcType=DATE},
+            Author =  #{author,jdbcType=VARCHAR},
+            Publisher =  #{publisher,jdbcType=VARCHAR},
+            Category =  #{category,jdbcType=VARCHAR},
+            Pages =  #{pages,jdbcType=INTEGER},
+            Price =  #{price,jdbcType=DECIMAL},
+            PicturePath =  #{picturepath,jdbcType=VARCHAR}
+        where   BookID = #{bookid,jdbcType=INTEGER} 
+    </update>
+</mapper>

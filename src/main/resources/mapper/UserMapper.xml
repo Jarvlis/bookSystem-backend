@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.UserWithRole">
+        <id property="userid" column="UserID" jdbcType="INTEGER"/>
+        <result property="username" column="Username" jdbcType="VARCHAR"/>
+        <result property="password" column="Password" jdbcType="VARCHAR"/>
+        <result property="realname" column="RealName" jdbcType="VARCHAR"/>
+        <result property="contactphone" column="ContactPhone" jdbcType="VARCHAR"/>
+        <result property="email" column="Email" jdbcType="VARCHAR"/>
+        <result property="address" column="Address" jdbcType="VARCHAR"/>
+        <result property="workid" column="WorkID" jdbcType="VARCHAR"/>
+        <result property="isregistered" column="IsRegistered" jdbcType="TINYINT"/>
+        <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="Gender" jdbcType="CHAR"/>
+        <result property="avatarpath" column="AvatarPath" jdbcType="VARCHAR"/>
+        <result property="accountstatus" column="AccountStatus" jdbcType="TINYINT"/>
+        <result property="lastlogintime" column="LastLoginTime" jdbcType="TIMESTAMP"/>
+        <result property="isdeleted" column="isDeleted" jdbcType="INTEGER"/>
+        <result property="deptid" column="DeptID" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        UserID,Username,Password,
+        RealName,ContactPhone,Email,
+        Address,WorkID,IsRegistered,
+        CreateTime,Gender,AvatarPath,
+        AccountStatus,LastLoginTime,isDeleted,DeptID
+    </sql>
+    <insert id="saveUser" useGeneratedKeys="true" keyProperty="userid" parameterType="com.bhh.booksystem.model.domain.UserWithRole">
+        insert into `user` (Username, Password, Email, ContactPhone, Address, RealName, DeptID) value(#{username}, #{password}, #{email}, #{contactphone}, #{address}, #{realname}, #{deptid})
+    </insert>
+    <insert id="detailRegister" parameterType="com.bhh.booksystem.model.domain.request.UserDetailRegisterRequest"
+            useGeneratedKeys="true" keyProperty="userid">
+        insert into `user` (Username, Password, RealName,Email, ContactPhone,Address, DeptID) value(#{username}, #{password}, #{realName},#{email}, #{contactPhone},#{address}, #{deptid})
+    </insert>
+
+    <insert id="userRoleRegister">
+        insert into `userrole` (UserID, RoleID) value (#{UserID}, #{RoleID})
+    </insert>
+    <update id="resetPassword">
+        update `user` set Password = #{Password} where Username = #{Username}
+    </update>
+    <update id="updateUser" parameterType="com.bhh.booksystem.model.domain.UserWithRole">
+        update `user`
+        <set>
+            <if test="realname != null">
+                RealName = #{realname,jdbcType=VARCHAR},
+            </if>
+            <if test="contactphone != null">
+                ContactPhone = #{contactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                Email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                Address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="workid != null">
+                WorkID = #{workid,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                Gender = #{gender,jdbcType=CHAR},
+            </if>
+            <if test="avatarpath != null">
+                AvatarPath = #{avatarpath ,jdbcType=VARCHAR},
+            </if>
+            <if test="accountstatus != null">
+                AccountStatus = #{accountstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="deptid != null">
+                DeptID = #{deptid,jdbcType=VARCHAR},
+            </if>
+            <if test="lastlogintime != null">
+                LastLoginTime = #{lastlogintime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where UserID = #{userid}
+    </update>
+    <delete id="deleteUserById" parameterType="Integer">
+        delete * from `user` where userid = #{UserID}
+    </delete>
+    <select id="selectUserList" resultType="com.bhh.booksystem.model.domain.UserWithRole">
+        select u.*, r.roleName
+        from `user` as u
+        join `userrole` as ur on u.UserID = ur.UserID
+        join `role` as r on ur.RoleID = r.RoleID
+    </select>
+    <select id="userisExist" resultType="com.bhh.booksystem.model.domain.UserWithRole" parameterType="String">
+        select u.*, r.roleName
+        from `user` as u
+        join `userrole` as ur on u.UserID = ur.UserID
+        join `role` as r on ur.RoleID = r.RoleID
+        WHERE u.Username = #{username} and u.Password = #{password}
+    </select>
+    <select id="getUserById" parameterType="int" resultType="com.bhh.booksystem.model.domain.UserWithRole">
+        select u.*, r.roleName
+        from `user` as u
+        join `userrole` as ur on u.UserID = ur.UserID
+        join `role` as r on ur.RoleID = r.RoleID
+        where u.UserID = #{UserID}
+    </select>
+    <select id="getUserByUsername" resultType="com.bhh.booksystem.model.domain.User">
+        select * from `user` where Username = #{Username}
+    </select>
+    <select id="selectList" parameterType="com.bhh.booksystem.model.domain.request.UserSearchRequest"
+            resultType="com.bhh.booksystem.model.domain.UserWithRole">
+        select u.*, r.roleName
+        from `user` as u
+        join `userrole` as ur on u.UserID = ur.UserID
+        join `role` as r on ur.RoleID = r.RoleID
+        <where>
+            <if test="username != null and username != ''">
+                AND u.Username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="userid != null and userid != 0">
+                AND u.UserID LIKE CONCAT('%', #{userid}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

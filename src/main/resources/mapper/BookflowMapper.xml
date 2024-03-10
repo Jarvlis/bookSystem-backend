@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.BookflowMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Bookflow">
+            <id property="flowid" column="FlowID" jdbcType="INTEGER"/>
+            <result property="bookid" column="BookID" jdbcType="INTEGER"/>
+            <result property="ownerunit" column="OwnerUnit" jdbcType="INTEGER"/>
+            <result property="flowtounit" column="FlowToUnit" jdbcType="INTEGER"/>
+            <result property="flowtime" column="FlowTime" jdbcType="TIMESTAMP"/>
+            <result property="returntime" column="ReturnTime" jdbcType="TIMESTAMP"/>
+            <result property="reason" column="Reason" jdbcType="VARCHAR"/>
+            <result property="applicant" column="Applicant" jdbcType="VARCHAR"/>
+            <result property="contact" column="Contact" jdbcType="VARCHAR"/>
+            <result property="remarks" column="Remarks" jdbcType="VARCHAR"/>
+            <result property="flowstatus" column="flowStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        FlowID,BookID,OwnerUnit,
+        FlowToUnit,FlowTime,ReturnTime,
+        Reason,Applicant,Contact,
+        Remarks,flowStatus
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bookflow
+        where  FlowID = #{flowid,jdbcType=INTEGER} 
+    </select>
+    <select id="selectDeptFlow" parameterType="java.lang.Integer" resultType="com.bhh.booksystem.model.domain.Bookflow">
+        select
+        <include refid="Base_Column_List" />
+        from bookflow
+    </select>
+    <select id="selectDeptFlowOut" resultType="com.bhh.booksystem.model.domain.Bookflow">
+        select
+        <include refid="Base_Column_List" />
+        from bookflow
+        where  OwnerUnit = #{ownerunit,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from bookflow
+        where  FlowID = #{flowid,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="FlowID" keyProperty="flowid" parameterType="com.bhh.booksystem.model.domain.Bookflow" useGeneratedKeys="true">
+        insert into bookflow
+        ( FlowID,BookID,OwnerUnit
+        ,FlowToUnit,FlowTime,ReturnTime
+        ,Reason,Applicant,Contact
+        ,Remarks,flowStatus)
+        values (#{flowid,jdbcType=INTEGER},#{bookid,jdbcType=INTEGER},#{ownerunit,jdbcType=INTEGER}
+        ,#{flowtounit,jdbcType=INTEGER},#{flowtime,jdbcType=TIMESTAMP},#{returntime,jdbcType=TIMESTAMP}
+        ,#{reason,jdbcType=VARCHAR},#{applicant,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR}
+        ,#{remarks,jdbcType=VARCHAR},#{flowstatus,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="FlowID" keyProperty="flowid" parameterType="com.bhh.booksystem.model.domain.Bookflow" useGeneratedKeys="true">
+        insert into bookflow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="flowid != null">FlowID,</if>
+                <if test="bookid != null">BookID,</if>
+                <if test="ownerunit != null">OwnerUnit,</if>
+                <if test="flowtounit != null">FlowToUnit,</if>
+                <if test="flowtime != null">FlowTime,</if>
+                <if test="returntime != null">ReturnTime,</if>
+                <if test="reason != null">Reason,</if>
+                <if test="applicant != null">Applicant,</if>
+                <if test="contact != null">Contact,</if>
+                <if test="remarks != null">Remarks,</if>
+                <if test="flowstatus != null">flowStatus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="flowid != null">#{flowid,jdbcType=INTEGER},</if>
+                <if test="bookid != null">#{bookid,jdbcType=INTEGER},</if>
+                <if test="ownerunit != null">#{ownerunit,jdbcType=INTEGER},</if>
+                <if test="flowtounit != null">#{flowtounit,jdbcType=INTEGER},</if>
+                <if test="flowtime != null">#{flowtime,jdbcType=TIMESTAMP},</if>
+                <if test="returntime != null">#{returntime,jdbcType=TIMESTAMP},</if>
+                <if test="reason != null">#{reason,jdbcType=VARCHAR},</if>
+                <if test="applicant != null">#{applicant,jdbcType=VARCHAR},</if>
+                <if test="contact != null">#{contact,jdbcType=VARCHAR},</if>
+                <if test="remarks != null">#{remarks,jdbcType=VARCHAR},</if>
+                <if test="flowstatus != null">#{flowstatus,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bhh.booksystem.model.domain.Bookflow">
+        update bookflow
+        <set>
+                <if test="bookid != null">
+                    BookID = #{bookid,jdbcType=INTEGER},
+                </if>
+                <if test="ownerunit != null">
+                    OwnerUnit = #{ownerunit,jdbcType=INTEGER},
+                </if>
+                <if test="flowtounit != null">
+                    FlowToUnit = #{flowtounit,jdbcType=INTEGER},
+                </if>
+                <if test="flowtime != null">
+                    FlowTime = #{flowtime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="returntime != null">
+                    ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="reason != null">
+                    Reason = #{reason,jdbcType=VARCHAR},
+                </if>
+                <if test="applicant != null">
+                    Applicant = #{applicant,jdbcType=VARCHAR},
+                </if>
+                <if test="contact != null">
+                    Contact = #{contact,jdbcType=VARCHAR},
+                </if>
+                <if test="remarks != null">
+                    Remarks = #{remarks,jdbcType=VARCHAR},
+                </if>
+                <if test="flowstatus != null">
+                    flowStatus = #{flowstatus,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   FlowID = #{flowid,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bhh.booksystem.model.domain.Bookflow">
+        update bookflow
+        set 
+            BookID =  #{bookid,jdbcType=INTEGER},
+            OwnerUnit =  #{ownerunit,jdbcType=INTEGER},
+            FlowToUnit =  #{flowtounit,jdbcType=INTEGER},
+            FlowTime =  #{flowtime,jdbcType=TIMESTAMP},
+            ReturnTime =  #{returntime,jdbcType=TIMESTAMP},
+            Reason =  #{reason,jdbcType=VARCHAR},
+            Applicant =  #{applicant,jdbcType=VARCHAR},
+            Contact =  #{contact,jdbcType=VARCHAR},
+            Remarks =  #{remarks,jdbcType=VARCHAR},
+            flowStatus =  #{flowstatus,jdbcType=INTEGER}
+        where   FlowID = #{flowid,jdbcType=INTEGER} 
+    </update>
+</mapper>

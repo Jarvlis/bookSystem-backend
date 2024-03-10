@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.UserroleMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Userrole">
+            <id property="userid" column="UserID" jdbcType="INTEGER"/>
+            <id property="roleid" column="RoleID" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        UserID,RoleID
+    </sql>
+
+    <insert id="insert" parameterType="com.bhh.booksystem.model.domain.Userrole">
+        insert into `userrole` (UserID,RoleID) value (#{userid}, #{roleid}) on duplicate key update UserID=#{userid}, RoleID=#{roleid}
+    </insert>
+
+</mapper>

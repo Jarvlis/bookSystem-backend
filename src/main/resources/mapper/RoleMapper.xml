@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Role">
+            <id property="roleid" column="RoleID" jdbcType="INTEGER"/>
+            <result property="rolename" column="RoleName" jdbcType="VARCHAR"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="rolestatus" column="RoleStatus" jdbcType="TINYINT"/>
+            <result property="remarks" column="Remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        RoleID,RoleName,CreateTime,
+        RoleStatus,Remarks
+    </sql>
+
+    <insert id="insert" keyColumn="RoleID" keyProperty="roleid" parameterType="com.bhh.booksystem.model.domain.Role" useGeneratedKeys="true">
+        insert into `role` (RoleName,CreateTime,RoleStatus) value (#{rolename},#{createtime},#{rolestatus})
+    </insert>
+
+</mapper>

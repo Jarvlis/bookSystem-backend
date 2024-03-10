@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.DepartmentMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Department">
+            <id property="deptid" column="DeptID" jdbcType="INTEGER"/>
+            <result property="deptname" column="DeptName" jdbcType="VARCHAR"/>
+            <result property="contact" column="Contact" jdbcType="VARCHAR"/>
+            <result property="contactphone" column="ContactPhone" jdbcType="VARCHAR"/>
+            <result property="email" column="Email" jdbcType="VARCHAR"/>
+            <result property="address" column="Address" jdbcType="VARCHAR"/>
+            <result property="property" column="Property" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        DeptID,DeptName,Contact,
+        ContactPhone,Email,Address,
+        Property
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where  DeptID = #{deptid,jdbcType=INTEGER} 
+    </select>
+    <select id="selectDepartments" resultType="com.bhh.booksystem.model.domain.Department" parameterType="com.bhh.booksystem.model.domain.request.DepartmentSearchRequest">
+        select * from `department`
+        <where>
+            <if test="deptname != null and deptname != ''">
+                DeptName LIKE CONCAT('%', #{deptname}, '%')
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from department
+        where  DeptID = #{deptid,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="DeptID" keyProperty="deptid" parameterType="com.bhh.booksystem.model.domain.Department" useGeneratedKeys="true">
+        insert into department
+        ( DeptID,DeptName,Contact
+        ,ContactPhone,Email,Address
+        ,Property)
+        values (#{deptid,jdbcType=INTEGER},#{deptname,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR}
+        ,#{contactphone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR}
+        ,#{property,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="DeptID" keyProperty="deptid" parameterType="com.bhh.booksystem.model.domain.Department" useGeneratedKeys="true">
+        insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="deptid != null">DeptID,</if>
+                <if test="deptname != null">DeptName,</if>
+                <if test="contact != null">Contact,</if>
+                <if test="contactphone != null">ContactPhone,</if>
+                <if test="email != null">Email,</if>
+                <if test="address != null">Address,</if>
+                <if test="property != null">Property,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="deptid != null">#{deptid,jdbcType=INTEGER},</if>
+                <if test="deptname != null">#{deptname,jdbcType=VARCHAR},</if>
+                <if test="contact != null">#{contact,jdbcType=VARCHAR},</if>
+                <if test="contactphone != null">#{contactphone,jdbcType=VARCHAR},</if>
+                <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+                <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+                <if test="property != null">#{property,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bhh.booksystem.model.domain.Department">
+        update department
+        <set>
+                <if test="deptname != null">
+                    DeptName = #{deptname,jdbcType=VARCHAR},
+                </if>
+                <if test="contact != null">
+                    Contact = #{contact,jdbcType=VARCHAR},
+                </if>
+                <if test="contactphone != null">
+                    ContactPhone = #{contactphone,jdbcType=VARCHAR},
+                </if>
+                <if test="email != null">
+                    Email = #{email,jdbcType=VARCHAR},
+                </if>
+                <if test="address != null">
+                    Address = #{address,jdbcType=VARCHAR},
+                </if>
+                <if test="property != null">
+                    Property = #{property,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   DeptID = #{deptid,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bhh.booksystem.model.domain.Department">
+        update department
+        set 
+            DeptName =  #{deptname,jdbcType=VARCHAR},
+            Contact =  #{contact,jdbcType=VARCHAR},
+            ContactPhone =  #{contactphone,jdbcType=VARCHAR},
+            Email =  #{email,jdbcType=VARCHAR},
+            Address =  #{address,jdbcType=VARCHAR},
+            Property =  #{property,jdbcType=VARCHAR}
+        where   DeptID = #{deptid,jdbcType=INTEGER} 
+    </update>
+
+
+</mapper>

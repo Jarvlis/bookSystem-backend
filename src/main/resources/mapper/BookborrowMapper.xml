@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhh.booksystem.mapper.BookborrowMapper">
+
+    <resultMap id="BaseResultMap" type="com.bhh.booksystem.model.domain.Bookborrow">
+            <id property="borrowid" column="BorrowID" jdbcType="INTEGER"/>
+            <result property="bookid" column="BookID" jdbcType="INTEGER"/>
+            <result property="userid" column="UserID" jdbcType="INTEGER"/>
+            <result property="borrowtime" column="BorrowTime" jdbcType="TIMESTAMP"/>
+            <result property="returntime" column="ReturnTime" jdbcType="TIMESTAMP"/>
+            <result property="reason" column="Reason" jdbcType="VARCHAR"/>
+            <result property="contact" column="Contact" jdbcType="VARCHAR"/>
+            <result property="remarks" column="Remarks" jdbcType="VARCHAR"/>
+            <result property="borrowstatus" column="BorrowStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        BorrowID,BookID,UserID,
+        BorrowTime,ReturnTime,Reason,
+        Contact,Remarks,BorrowStatus
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bookborrow
+        where  BorrowID = #{borrowid,jdbcType=INTEGER}
+    </select>
+    <select id="selectByDeptid" parameterType="java.lang.Integer" resultType="com.bhh.booksystem.model.domain.BookBorrowVO">
+        select
+        bb.* , bi.DeptID
+        from bookborrow bb
+        inner join bookinfo bi on bb.BookID = bi.BookID
+        where  bi.DeptID = #{deptid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllinfo" resultType="com.bhh.booksystem.model.domain.BookBorrowVO">
+        select
+        bb.* , bi.DeptID
+        from bookborrow bb
+        inner join bookinfo bi on bb.BookID = bi.BookID
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from bookborrow
+        where  BorrowID = #{borrowid,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="BorrowID" keyProperty="borrowid" parameterType="com.bhh.booksystem.model.domain.Bookborrow" useGeneratedKeys="true">
+        insert into bookborrow
+        ( BorrowID,BookID,UserID
+        ,BorrowTime,ReturnTime,Reason
+        ,Contact,Remarks,BorrowStatus
+        )
+        values (#{borrowid,jdbcType=INTEGER},#{bookid,jdbcType=INTEGER},#{userid,jdbcType=INTEGER}
+        ,#{borrowtime,jdbcType=TIMESTAMP},#{returntime,jdbcType=TIMESTAMP},#{reason,jdbcType=VARCHAR}
+        ,#{contact,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR},#{borrowstatus,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="BorrowID" keyProperty="borrowid" parameterType="com.bhh.booksystem.model.domain.BookBorrowVO" useGeneratedKeys="true">
+        insert into bookborrow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="borrowid != null">BorrowID,</if>
+                <if test="bookid != null">BookID,</if>
+                <if test="userid != null">UserID,</if>
+                <if test="borrowtime != null">BorrowTime,</if>
+                <if test="returntime != null">ReturnTime,</if>
+                <if test="reason != null">Reason,</if>
+                <if test="contact != null">Contact,</if>
+                <if test="remarks != null">Remarks,</if>
+                <if test="borrowstatus != null">BorrowStatus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="borrowid != null">#{borrowid,jdbcType=INTEGER},</if>
+                <if test="bookid != null">#{bookid,jdbcType=INTEGER},</if>
+                <if test="userid != null">#{userid,jdbcType=INTEGER},</if>
+                <if test="borrowtime != null">#{borrowtime,jdbcType=TIMESTAMP},</if>
+                <if test="returntime != null">#{returntime,jdbcType=TIMESTAMP},</if>
+                <if test="reason != null">#{reason,jdbcType=VARCHAR},</if>
+                <if test="contact != null">#{contact,jdbcType=VARCHAR},</if>
+                <if test="remarks != null">#{remarks,jdbcType=VARCHAR},</if>
+                <if test="borrowstatus != null">#{borrowstatus,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bhh.booksystem.model.domain.BookBorrowVO">
+        update bookborrow
+        <set>
+                <if test="bookid != null">
+                    BookID = #{bookid,jdbcType=INTEGER},
+                </if>
+                <if test="userid != null">
+                    UserID = #{userid,jdbcType=INTEGER},
+                </if>
+                <if test="borrowtime != null">
+                    BorrowTime = #{borrowtime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="returntime != null">
+                    ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="reason != null">
+                    Reason = #{reason,jdbcType=VARCHAR},
+                </if>
+                <if test="contact != null">
+                    Contact = #{contact,jdbcType=VARCHAR},
+                </if>
+                <if test="remarks != null">
+                    Remarks = #{remarks,jdbcType=VARCHAR},
+                </if>
+                <if test="borrowstatus != null">
+                    BorrowStatus = #{borrowstatus,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   BorrowID = #{borrowid,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bhh.booksystem.model.domain.Bookborrow">
+        update bookborrow
+        set 
+            BookID =  #{bookid,jdbcType=INTEGER},
+            UserID =  #{userid,jdbcType=INTEGER},
+            BorrowTime =  #{borrowtime,jdbcType=TIMESTAMP},
+            ReturnTime =  #{returntime,jdbcType=TIMESTAMP},
+            Reason =  #{reason,jdbcType=VARCHAR},
+            Contact =  #{contact,jdbcType=VARCHAR},
+            Remarks =  #{remarks,jdbcType=VARCHAR},
+            BorrowStatus =  #{borrowstatus,jdbcType=INTEGER}
+        where   BorrowID = #{borrowid,jdbcType=INTEGER} 
+    </update>
+</mapper>
