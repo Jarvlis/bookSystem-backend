@@ -12,7 +12,7 @@
 
 ## 项目基本信息
 
-项目体验地址：
+项目体验地址：http://book.jarvlis.top
 
 前端：https://github.com/Jarvlis/bookSystem-frontend
 
