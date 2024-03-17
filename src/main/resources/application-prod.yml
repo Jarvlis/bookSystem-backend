@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: book-system-center
+  # DataSource Config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: books         #todo 设置用户名 - 数据库
+    password: 3CmCjjCsHy2Wdmj5       #todo 设置密码 - 数据库
+    url: jdbc:mysql://123.57.220.236:3306/books?characterEncoding=utf8&serverTimezone=GMT%2B8
+  session:
+    timeout: 100000
+  mail:
+    host: smtp.qq.com   # 设置邮箱主机(服务商),这里使用QQ邮件服务器
+    username: 986653802@qq.com          #todo 设置用户名 - 发送方
+    password: bjzjawtenhkrbcac          #todo 设置密码，该处的密码是QQ邮箱开启SMTP的授权码而非QQ密码
+    properties:
+      mail:
+        smtp:
+          auth: true  # 必须进行授权认证，它的目的就是阻止他人任意乱发邮件
+          starttls: #SMTP加密方式:连接到一个TLS保护连接
+            enable: true
+            required: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.bhh.booksystem.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+knife4j:
+  enable: true
+

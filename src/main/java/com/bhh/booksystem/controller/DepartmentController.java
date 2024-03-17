@@ -29,7 +29,7 @@ import static com.bhh.booksystem.constant.UserConstant.USER_LOGIN_STATE;
 @Api(tags = "部门管理模块")
 @RestController
 @RequestMapping("/department")
-@CrossOrigin(origins = {"http://localhost:8000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://book.jarvlis.top:8000","http://book.jarvlis.top", "http://localhost:8000"}, allowCredentials = "true")
 public class DepartmentController {
 
     @Resource

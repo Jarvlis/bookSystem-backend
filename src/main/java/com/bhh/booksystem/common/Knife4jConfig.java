@@ -31,7 +31,7 @@ public class Knife4jConfig {
         return new ApiInfoBuilder()
                 .title("图书信息平台接口文档")
                 .description("使用 knife4j 搭建的后台服务API接口文档")
-                .termsOfServiceUrl("http://localhost:8080/")
+                .termsOfServiceUrl("http://jarvlis.top:8080/")
                 .build();
     }
 }

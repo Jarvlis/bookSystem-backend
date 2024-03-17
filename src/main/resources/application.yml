@@ -4,15 +4,15 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/book?characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: books         #todo 设置用户名 - 数据库
+    password: 3CmCjjCsHy2Wdmj5       #todo 设置密码 - 数据库
+    url: jdbc:mysql://123.57.220.236:3306/books?characterEncoding=utf8&serverTimezone=GMT%2B8
   session:
     timeout: 100000
   mail:
     host: smtp.qq.com   # 设置邮箱主机(服务商),这里使用QQ邮件服务器
-    username:           #todo 设置用户名 - 发送方
-    password:           #todo 设置密码，该处的密码是QQ邮箱开启SMTP的授权码而非QQ密码
+    username: 986653802@qq.com          #todo 设置用户名 - 发送方
+    password: bjzjawtenhkrbcac          #todo 设置密码，该处的密码是QQ邮箱开启SMTP的授权码而非QQ密码
     properties:
       mail:
         smtp:

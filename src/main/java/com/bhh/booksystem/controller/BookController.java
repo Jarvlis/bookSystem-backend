@@ -38,7 +38,7 @@ import static com.bhh.booksystem.constant.UserConstant.*;
 @Api(tags = "图书信息模块")
 @RestController
 @RequestMapping("/book")
-@CrossOrigin(origins = {"http://localhost:8000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://book.jarvlis.top:8000","http://book.jarvlis.top", "http://localhost:8000"}, allowCredentials = "true")
 public class BookController {
 
     @Resource

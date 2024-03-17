@@ -33,7 +33,7 @@ import static com.bhh.booksystem.constant.UserConstant.USER_LOGIN_STATE;
 @Api(tags = "用户管理模块")
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:8000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://book.jarvlis.top", "http://book.jarvlis.top:8000","http://localhost:8000"}, allowCredentials = "true")
 @Slf4j
 public class UserController {
 
